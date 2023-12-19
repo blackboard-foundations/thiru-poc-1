@@ -1,0 +1,18 @@
+version: 0.2
+env:
+  secrets-manager:
+    ARTIFACTORY_USERNAME: pipelines:ARTIFACTORY_USERNAME
+    ARTIFACTORY_TOKEN: pipelines:ARTIFACTORY_TOKEN
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+      python: 3.11
+    commands:
+      - git clone --quiet --depth 1 --branch v2 https://github.com/blackboard-innersource/gh-action-setup-artifactory.git
+      - ./gh-action-setup-artifactory/setup_pip.sh
+      - npm install -g aws-cdk@2
+      - pip3 install -r requirements.txt
+  build:
+    commands:
+      - cdk synth

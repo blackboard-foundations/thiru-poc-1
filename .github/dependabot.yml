@@ -1,0 +1,21 @@
+# https://help.github.com/en/github/administering-a-repository/configuration-options-for-dependency-updates
+version: 2
+registries:
+  python-artifactory:
+    type: python-index
+    url: https://blackboard.jfrog.io/artifactory/api/pypi/fnds-pypi/simple
+    username: ${{ secrets.ARTIFACTORY_USERNAME }}
+    password: ${{ secrets.ARTIFACTORY_TOKEN }}
+    replaces-base: true
+updates:
+  - package-ecosystem: "pip"
+    insecure-external-code-execution: allow
+    registries:
+      - python-artifactory
+    directory: "/"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
